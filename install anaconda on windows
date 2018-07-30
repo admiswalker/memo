@@ -1,0 +1,36 @@
+Anaconda3 for win 文字コード 変更．
+
+>> Anaconda3 for win が親切にも文字コードを win に合わせて SJIS にするせいで，cygwin からだと文字化けする．
+
+>> sys.setdefaultencoding('UTF-8')
+>> AttributeError: module 'sys' has no attribute 'setdefaultencoding'
+>> >> メモ：http://d.hatena.ne.jp/SumiTomohiko/20070120/1169300624 …
+>> >> [Python] UnicodeEncodeErrorが発生した場合は、sitecustomize.pyでデフォルトのエンコーディングを指定する。 - SumiTomohikoの日記
+>> >> 環境 この記事の内容は、Ubuntu 6.10, Python 2.4で確認しました。 現象 ユニコード文字列をstr関数に与え..
+
+>> メモ：Anaconda3 for win (Python3) 文字コード  cmd が SJIS のため Cygwin でバグるusercustomize.py  に
+>> import sys
+>> import io
+>> sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+>> として
+>> C:\Users\usrName\Anaconda3\Lib\site-packages
+>> に設置
+>> >> http://kei10in.hatenablog.jp/entry/20090331/1238520386 …
+>> >> sys.stdout のエンコードを変更する in Python3.0 - @kei10in の日記
+>> >> 課題 sys.stdout のエンコードを変更したい！！！ 説明 sys.stdout のエンコードの変更は，Python2.6 までは >>> sys.stdout = codecs.getwriter('utf-8')(sys.stdout) >>> print u'ほげ' ほげ ってやります．これを，Python…
+
+Anaconda3 for win (Python3) における標準出力の文字コードが，コマンドプロントに合わせて SJIS のため，UTF-8 の Cygwin で文字化けする問題．
+
+usercustomize.py という名前のテキストファイルを作成し，
+import sys
+import io
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+と書き込む．これを
+C:\Users\usrName\Anaconda3\Lib\site-packages
+にコピーする．
+
+なお，Anaconda3 (Python3) for win へのパスを Cygwin に追加するには，
+C:/cygwin64/home/usrName/.bashrc
+の一番上に
+export PATH=/cygdrive/c/Users/usrName/Anaconda3:$PATH
+と追記する．
